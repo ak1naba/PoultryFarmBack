@@ -8,10 +8,13 @@
         public int Age { get; set; }
         public int EggsPerMonth { get; set; }
 
-        // Foreing classes
+        // Foreing keys
         public int BreedId { get; set; }
         public int CageId { get; set; }
 
+        // Foreign classes
+        public Breed? Breed { get; set; }
+        public Cage? Cage { get; set; }
     }
 }
 

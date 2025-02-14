@@ -3,33 +3,81 @@
     {
       "Id": 1,
       "Weight": 2.5,
-      "Age": 12,
-      "EggsPerMonth": 20,
+      "Age": 10,
+      "EggsPerMonth": 18,
       "BreedId": 1,
       "CageId": 1
     },
     {
       "Id": 2,
       "Weight": 3,
-      "Age": 10,
-      "EggsPerMonth": 18,
+      "Age": 11,
+      "EggsPerMonth": 20,
       "BreedId": 2,
       "CageId": 2
     },
     {
       "Id": 3,
-      "Weight": 2,
-      "Age": 2,
+      "Weight": 3.5,
+      "Age": 12,
       "EggsPerMonth": 22,
       "BreedId": 3,
       "CageId": 3
+    },
+    {
+      "Id": 4,
+      "Weight": 4,
+      "Age": 4,
+      "EggsPerMonth": 4,
+      "BreedId": 3,
+      "CageId": 4
+    },
+    {
+      "Id": 5,
+      "Weight": 2.5,
+      "Age": 10,
+      "EggsPerMonth": 18,
+      "BreedId": 1,
+      "CageId": 1
     }
   ],
-  "eggs": [
+  "breeds": [
     {
       "Id": 1,
-      "Size": "Large",
-      "Color": "Brown"
+      "Name": "\u042F\u0418\u0427\u041D\u042B\u0415",
+      "Description": null
+    },
+    {
+      "Id": 2,
+      "Name": "\u041C\u042F\u0421\u041D\u042B\u0415",
+      "Description": null
+    },
+    {
+      "Id": 3,
+      "Name": "\u041C\u042F\u0421\u041E-\u042F\u0418\u0427\u041D\u042B\u0415",
+      "Description": null
+    }
+  ],
+  "cages": [
+    {
+      "Id": 1,
+      "IsOccupied": true,
+      "ChickenId": 1
+    },
+    {
+      "Id": 2,
+      "IsOccupied": true,
+      "ChickenId": 2
+    },
+    {
+      "Id": 3,
+      "IsOccupied": true,
+      "ChickeId": 3
+    },
+    {
+      "Id": 4,
+      "IsOccupied": false,
+      "ChicknId": null
     }
   ]
 }

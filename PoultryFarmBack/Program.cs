@@ -4,25 +4,14 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger/OpenAPI настройка
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// јвтоматическа€ регистраци€ всех сервисов
-var services = Assembly.GetExecutingAssembly()
-    .GetTypes()
-    .Where(t => t.IsClass && !t.IsAbstract && t.Namespace == "PoultryFarmBack.Services");
-
-foreach (var service in services)
-{
-    // –егистраци€ всех сервисов, кроме JsonFileService, который требует дополнительной зависимости
-    if (service != typeof(JsonFileService))
-    {
-        builder.Services.AddScoped(service);
-    }
-}
+// ѕример €вной регистрации ChickenService
+builder.Services.AddScoped<ChickenService>();
 
 // явна€ регистраци€ JsonFileService с передачей строки
 builder.Services.AddSingleton<JsonFileService>(provider =>

@@ -44,26 +44,28 @@ namespace PoultryFarmBack.Controllers
         public IActionResult AddChicken([FromBody] Chicken chicken)
         {
             if (chicken == null)
-            {
-                return BadRequest(); // Возвращаем 400, если данные неверны
-            }
+                return BadRequest(new { message = "Некорректные данные." });
 
-            _chickenService.AddChicken(chicken);
-            return CreatedAtAction(nameof(GetChickenById), new { id = chicken.Id }, chicken); // Возвращаем 201 (Created)
+            if (_chickenService.AddChicken(chicken, out Dictionary<string, string> errors))
+                return CreatedAtAction(nameof(GetChickenById), new { id = chicken.Id }, chicken);
+
+            return UnprocessableEntity(new { errors });
         }
+
 
         // PUT: api/chicken/5
         [HttpPut("{id}")]
         public IActionResult UpdateChicken(int id, [FromBody] Chicken chicken)
         {
             if (chicken == null || id != chicken.Id)
-            {
-                return BadRequest(); // Возвращаем 400, если данные неверны
-            }
+                return BadRequest(new { message = "Некорректные данные." });
 
-            _chickenService.UpdateChicken(chicken);
-            return NoContent(); // Возвращаем 204 (No Content)
+            if (_chickenService.UpdateChicken(chicken, out Dictionary<string, string> errors))
+                return NoContent();
+
+            return UnprocessableEntity(new { errors });
         }
+
 
         // DELETE: api/chicken/5
         [HttpDelete("{id}")]
