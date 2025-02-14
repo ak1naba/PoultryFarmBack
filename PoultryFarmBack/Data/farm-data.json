@@ -1,0 +1,35 @@
+{
+  "chickens": [
+    {
+      "Id": 1,
+      "Weight": 2.5,
+      "Age": 12,
+      "EggsPerMonth": 20,
+      "BreedId": 1,
+      "CageId": 1
+    },
+    {
+      "Id": 2,
+      "Weight": 3,
+      "Age": 10,
+      "EggsPerMonth": 18,
+      "BreedId": 2,
+      "CageId": 2
+    },
+    {
+      "Id": 3,
+      "Weight": 2,
+      "Age": 2,
+      "EggsPerMonth": 22,
+      "BreedId": 3,
+      "CageId": 3
+    }
+  ],
+  "eggs": [
+    {
+      "Id": 1,
+      "Size": "Large",
+      "Color": "Brown"
+    }
+  ]
+}

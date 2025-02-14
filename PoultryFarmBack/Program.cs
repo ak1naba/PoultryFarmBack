@@ -17,8 +17,16 @@ var services = Assembly.GetExecutingAssembly()
 
 foreach (var service in services)
 {
-    builder.Services.AddScoped(service);
+    // Регистрация всех сервисов, кроме JsonFileService, который требует дополнительной зависимости
+    if (service != typeof(JsonFileService))
+    {
+        builder.Services.AddScoped(service);
+    }
 }
+
+// Явная регистрация JsonFileService с передачей строки
+builder.Services.AddSingleton<JsonFileService>(provider =>
+    new JsonFileService("Data/farm-data.json"));
 
 // Настройка CORS
 builder.Services.AddCors(options =>

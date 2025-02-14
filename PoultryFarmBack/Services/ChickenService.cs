@@ -1,24 +1,47 @@
 ﻿using PoultryFarmBack.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PoultryFarmBack.Services
 {
     public class ChickenService
     {
-        private readonly List<Chicken> _chickens;
+        private readonly JsonFileService _jsonFileService;
+        private List<Chicken> _chickens;
 
-        public ChickenService()
+        public ChickenService(JsonFileService jsonFileService)
         {
-            _chickens = new List<Chicken>();
+            _jsonFileService = jsonFileService;
+            LoadData();
         }
 
-        public List<Chicken> GetAllChickens() => _chickens;
+        // Загрузка данных из файла
+        private void LoadData()
+        {
+            _chickens = _jsonFileService.ReadFromFile<Chicken>("chickens");
+        }
 
-        public Chicken GetChickenById(int id) => _chickens.FirstOrDefault(c => c.Id == id);
+        // Сохранение данных в файл
+        private void SaveData()
+        {
+            _jsonFileService.WriteToFile(_chickens, "chickens");
+        }
+
+        public List<Chicken> GetAllChickens()
+        {
+            return _chickens;
+        }
+
+        public Chicken GetChickenById(int id)
+        {
+            return _chickens.FirstOrDefault(c => c.Id == id);
+        }
 
         public void AddChicken(Chicken chicken)
         {
             chicken.Id = _chickens.Any() ? _chickens.Max(c => c.Id) + 1 : 1;
             _chickens.Add(chicken);
+            SaveData(); // Сохраняем данные после добавления
         }
 
         public void UpdateChicken(Chicken chicken)
@@ -31,6 +54,7 @@ namespace PoultryFarmBack.Services
                 existingChicken.EggsPerMonth = chicken.EggsPerMonth;
                 existingChicken.BreedId = chicken.BreedId;
                 existingChicken.CageId = chicken.CageId;
+                SaveData(); // Сохраняем данные после обновления
             }
         }
 
@@ -40,6 +64,7 @@ namespace PoultryFarmBack.Services
             if (chicken != null)
             {
                 _chickens.Remove(chicken);
+                SaveData(); // Сохраняем данные после удаления
             }
         }
     }
