@@ -1,0 +1,6 @@
+@PoultryFarmBack_HostAddress = http://localhost:5109
+
+GET {{PoultryFarmBack_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
