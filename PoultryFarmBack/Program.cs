@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 // Пример явной регистрации ChickenService
 builder.Services.AddScoped<ChickenService>();
+builder.Services.AddScoped<CageService>();
+builder.Services.AddScoped<BreedService>();
 
 // Явная регистрация JsonFileService с передачей строки
 builder.Services.AddSingleton<JsonFileService>(provider =>

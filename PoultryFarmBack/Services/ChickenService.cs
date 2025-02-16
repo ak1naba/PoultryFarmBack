@@ -4,17 +4,21 @@ using PoultryFarmBack.Services;
 public class ChickenService
 {
     private readonly JsonFileService _jsonFileService;
+    private readonly BreedService _breedService;
+    private readonly CageService _cageService;
     private List<Chicken> _chickens;
     private List<Breed> _breeds;
     private List<Cage> _cages;
 
-    public ChickenService(JsonFileService jsonFileService)
+    public ChickenService(JsonFileService jsonFileService, BreedService breedService, CageService cageService)
     {
         _jsonFileService = jsonFileService;
+        _breedService = breedService;
+        _cageService = cageService;
         LoadData();
     }
 
-    public Dictionary<string, string> ValidateChicken(Chicken chicken)
+    public Dictionary<string, string> ValidateChicken(Chicken chicken, bool isUpdate = false)
     {
         var errors = new Dictionary<string, string>();
 
@@ -28,6 +32,13 @@ public class ChickenService
             errors["breedId"] = "Указанная порода не существует.";
         if (!_cages.Any(c => c.Id == chicken.CageId))
             errors["cageId"] = "Указанная клетка не существует.";
+
+        // Проверка занятости клетки при добавлении или смене клетки в обновлении
+        if (!isUpdate || (_cages.Any(c => c.Id == chicken.CageId && c.IsOccupied) &&
+                          _chickens.FirstOrDefault(c => c.Id == chicken.Id)?.CageId != chicken.CageId))
+        {
+            errors["cageId"] = "Выбранная клетка уже занята.";
+        }
 
         return errors;
     }
@@ -82,11 +93,18 @@ public class ChickenService
             return false;
 
         // Заполняем полные объекты Breed и Cage перед добавлением
-        chicken.Breed = _breedService.GetById(chicken.BreedId);
-        chicken.Cage = _cageService.GetById(chicken.CageId);
+        chicken.Breed = _breeds.FirstOrDefault(b => b.Id == chicken.BreedId);
+        chicken.Cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
 
+        // Назначаем ID и добавляем курицу
         chicken.Id = _chickens.Any() ? _chickens.Max(c => c.Id) + 1 : 1;
         _chickens.Add(chicken);
+
+        // Обновляем статус клетки
+        var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
+        if (cage != null)
+            cage.IsOccupied = true;
+
         SaveData();
         return true;
     }
@@ -101,17 +119,27 @@ public class ChickenService
             return false;
         }
 
-        errors = ValidateChicken(chicken);
+        errors = ValidateChicken(chicken, true);
         if (errors.Count > 0)
             return false;
 
         existingChicken.Weight = chicken.Weight;
         existingChicken.Age = chicken.Age;
         existingChicken.EggsPerMonth = chicken.EggsPerMonth;
-        existingChicken.BreedId = chicken.BreedId;
+
+        // Проверяем смену клетки
+        if (existingChicken.CageId != chicken.CageId)
+        {
+            var oldCage = _cages.FirstOrDefault(c => c.Id == existingChicken.CageId);
+            var newCage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
+
+            if (oldCage != null) oldCage.IsOccupied = false;
+            if (newCage != null) newCage.IsOccupied = true;
+        }
+
         existingChicken.CageId = chicken.CageId;
-        chicken.Breed = _breedService.GetById(chicken.BreedId);
-        chicken.Cage = _cageService.GetById(chicken.CageId);
+        existingChicken.BreedId = chicken.BreedId;
+
         SaveData();
         return true;
     }
@@ -122,7 +150,14 @@ public class ChickenService
         if (chicken != null)
         {
             _chickens.Remove(chicken);
+
+            // Освобождаем клетку, если она была занята
+            var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
+            if (cage != null)
+                cage.IsOccupied = false;
+
             SaveData();
         }
     }
+
 }
