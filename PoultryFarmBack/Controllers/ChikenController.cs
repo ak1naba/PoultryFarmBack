@@ -75,5 +75,14 @@ namespace PoultryFarmBack.Controllers
             return NoContent(); // Возвращаем 204 (No Content)
         }
 
+        [HttpGet("average-eggs")]
+        public IActionResult GetAverageEggsPerMonth([FromQuery] double minWeight, [FromQuery] double maxWeight, [FromQuery] int minAge, [FromQuery] int maxAge)
+        {
+            if (minWeight > maxWeight || minAge > maxAge)
+                return BadRequest(new { message = "Некорректные диапазоны." });
+
+            var averageEggs = _chickenService.GetAverageEggsPerMonth(minWeight, maxWeight, minAge, maxAge);
+            return Ok(new { averageEggs });
+        }
     }
 }
