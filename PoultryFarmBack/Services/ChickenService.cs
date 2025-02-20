@@ -34,11 +34,11 @@ public class ChickenService
             errors["cageId"] = "Указанная клетка не существует.";
 
         // Проверка занятости клетки при добавлении или смене клетки в обновлении
-        if (!isUpdate || (_cages.Any(c => c.Id == chicken.CageId && c.IsOccupied) &&
-                          _chickens.FirstOrDefault(c => c.Id == chicken.Id)?.CageId != chicken.CageId))
-        {
-            errors["cageId"] = "Выбранная клетка уже занята.";
-        }
+        // if (!isUpdate || (_cages.Any(c => c.Id == chicken.CageId && c.IsOccupied) &&
+        //                   _chickens.FirstOrDefault(c => c.Id == chicken.Id)?.CageId != chicken.CageId))
+        // {
+        //     errors["cageId"] = "Выбранная клетка уже занята.";
+        // }
 
         return errors;
     }
@@ -104,7 +104,7 @@ public class ChickenService
         var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
         if (cage != null){
             cage.IsOccupied = true;
-            cage.ChiсkenId = chicken.Id;
+            cage.ChickenId = chicken.Id;
         }
 
         SaveData();
@@ -134,8 +134,14 @@ public class ChickenService
             var oldCage = _cages.FirstOrDefault(c => c.Id == existingChicken.CageId);
             var newCage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
 
-            if (oldCage != null) oldCage.IsOccupied = false;
-            if (newCage != null) newCage.IsOccupied = true;
+            if (oldCage != null)
+            {
+                _cageService.RemoveChickenFromCage(oldCage.Id);
+            }
+            if (newCage != null)
+            {
+               _cageService.AssignChickenToCage(newCage.Id, existingChicken.Id);
+            }
         }
 
         existingChicken.CageId = chicken.CageId;
@@ -144,6 +150,7 @@ public class ChickenService
         SaveData();
         return true;
     }
+
 
     public void DeleteChicken(int id)
     {
@@ -157,7 +164,7 @@ public class ChickenService
             if (cage != null)
             {
                 cage.IsOccupied = false;
-                cage.ChiсkenId = null;
+                cage.ChickenId = null;
             }
             SaveData();
         }

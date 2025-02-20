@@ -39,7 +39,7 @@ public class CageService
         var cage = _cages.FirstOrDefault(c => c.Id == cageId);
         if (cage != null && !cage.IsOccupied)
         {
-            cage.ChiсkenId = chickenId;
+            cage.ChickenId = chickenId;
             cage.IsOccupied = true;
             SaveData();
         }
@@ -50,7 +50,7 @@ public class CageService
         var cage = _cages.FirstOrDefault(c => c.Id == cageId);
         if (cage != null && cage.IsOccupied)
         {
-            cage.ChiсkenId = null;
+            cage.ChickenId = null;
             cage.IsOccupied = false;
             SaveData();
         }
