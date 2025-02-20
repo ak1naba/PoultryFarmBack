@@ -7,6 +7,6 @@
         public bool IsOccupied { get; set; }
 
         // Foreing classes
-        public int? ChikenId { get; set; }
+        public int? ChiсkenId { get; set; }
     }
 }

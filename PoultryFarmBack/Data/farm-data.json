@@ -54,22 +54,47 @@
     {
       "Id": 1,
       "IsOccupied": true,
-      "ChickenId": 1
+      "ChickenId": 1,
+      "EmployeeId": 1
     },
     {
       "Id": 2,
       "IsOccupied": true,
-      "ChickenId": 2
+      "ChickenId": 2,
+      "EmployeeId": 1
     },
     {
       "Id": 3,
-      "IsOccupied": true,
-      "ChickeId": 3
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 1
     },
     {
       "Id": 4,
       "IsOccupied": true,
-      "ChicknId": null
+      "ChickenId": 4,
+      "EmployeeId": 1
+    },
+    {
+      "Id": 5,
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 2
+    }
+  ],
+  "employee":[
+    {
+      "id": 1,
+      "Fullname": "Иванов Иван Иванович",
+      "Salary": 50000.00,
+      "CageIds": [1,2,3,4]
+    },
+    {
+      "id": 2,
+      "Fullname": "Сидоров Сидор Сидорович",
+      "Salary": 50000.00,
+      "CageIds": [5,6,7,8]
     }
   ]
+  
 }

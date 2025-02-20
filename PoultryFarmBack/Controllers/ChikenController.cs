@@ -75,6 +75,7 @@ namespace PoultryFarmBack.Controllers
             return NoContent(); // Возвращаем 204 (No Content)
         }
 
+        // GET: api/chicken/average-eggs
         [HttpGet("average-eggs")]
         public IActionResult GetAverageEggsPerMonth([FromQuery] double minWeight, [FromQuery] double maxWeight, [FromQuery] int minAge, [FromQuery] int maxAge)
         {
@@ -84,5 +85,24 @@ namespace PoultryFarmBack.Controllers
             var averageEggs = _chickenService.GetAverageEggsPerMonth(minWeight, maxWeight, minAge, maxAge);
             return Ok(new { averageEggs });
         }
+
+        // GET: api/chicken/low-average
+        [HttpGet("low-average")]
+        public IActionResult GetLowerEggsChickens()
+        {
+            var chickens = _chickenService.getLowerAverageEggsChickens();
+
+            return Ok(chickens);
+        }
+
+        // GET: api/chicken/highest
+        [HttpGet("highest")]
+        public IActionResult GetHighestChikenCage()
+        {
+            var cage = _chickenService.getHisgestChikenCage();
+
+            return Ok(cage);
+        }
+
     }
 }

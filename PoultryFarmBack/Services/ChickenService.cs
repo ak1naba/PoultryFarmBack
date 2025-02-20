@@ -102,13 +102,14 @@ public class ChickenService
 
         // Обновляем статус клетки
         var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
-        if (cage != null)
+        if (cage != null){
             cage.IsOccupied = true;
+            cage.ChiсkenId = chicken.Id;
+        }
 
         SaveData();
         return true;
     }
-
 
     public bool UpdateChicken(Chicken chicken, out Dictionary<string, string> errors)
     {
@@ -154,8 +155,10 @@ public class ChickenService
             // Освобождаем клетку, если она была занята
             var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
             if (cage != null)
+            {
                 cage.IsOccupied = false;
-
+                cage.ChiсkenId = null;
+            }
             SaveData();
         }
     }
@@ -170,6 +173,25 @@ public class ChickenService
             return 0;
 
         return Math.Round(filteredChickens.Average(c => c.EggsPerMonth), 2);
+    }
+
+    public List<Chicken> getLowerAverageEggsChickens()
+    {
+        double averageEggs =  Math.Round(_chickens.Average(c => c.EggsPerMonth), 2);
+
+         List<Chicken> filteredChickens = _chickens
+            .Where(c => c.EggsPerMonth < averageEggs)
+            .ToList();
+
+        return filteredChickens;
+
+    }
+
+    public Cage getHisgestChikenCage()
+    {
+        Chicken highestChicken = _chickens.OrderByDescending(c => c.EggsPerMonth).FirstOrDefault();
+
+        return _cages.FirstOrDefault(c => c.Id == highestChicken.CageId);
     }
 
 }
