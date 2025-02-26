@@ -8,5 +8,7 @@
 
         // Foreing classes
         public int? ChickenId { get; set; }
+
+        public int EmployeeId {get; set; }
     }
 }

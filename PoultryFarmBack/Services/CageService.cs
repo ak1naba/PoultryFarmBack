@@ -41,6 +41,7 @@ public class CageService
         {
             cage.ChickenId = chickenId;
             cage.IsOccupied = true;
+            cage.EmployeeId = cage.EmployeeId;
             SaveData();
         }
     }
@@ -52,6 +53,7 @@ public class CageService
         {
             cage.ChickenId = null;
             cage.IsOccupied = false;
+            cage.EmployeeId = cage.EmployeeId;
             SaveData();
         }
     }

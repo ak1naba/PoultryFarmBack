@@ -85,8 +85,8 @@
     },
     {
       "Id": 5,
-      "IsOccupied": false,
-      "ChickenId": null,
+      "IsOccupied": true,
+      "ChickenId": 5,
       "EmployeeId": 2
     }
   ],
