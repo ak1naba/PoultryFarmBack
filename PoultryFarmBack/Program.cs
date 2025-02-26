@@ -17,7 +17,7 @@ builder.Services.AddScoped<BreedService>();
 
 // Явная регистрация JsonFileService с передачей строки
 builder.Services.AddSingleton<JsonFileService>(provider =>
-    new JsonFileService("Data/farm-data.json"));
+    new JsonFileService("/app/Data/farm-data.json"));
 
 // Настройка CORS
 builder.Services.AddCors(options =>
