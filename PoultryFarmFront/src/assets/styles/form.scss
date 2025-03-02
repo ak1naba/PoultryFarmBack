@@ -1,0 +1,58 @@
+// INPUTS
+input{
+  font-size: 14px;
+
+  padding: 10px 15px;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+select{
+  font-size: 14px;
+
+  padding: 10px 15px;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+// BUTTONS
+button{
+  font-size: 14px;
+  font-weight: 600;
+
+  padding: 10px 15px;
+}
+
+.btn-primary{
+  border: 1px solid #4f4fff;
+  background-color: #4f4fff;
+  border-radius: 5px;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  &:hover{
+    background-color: #6060fd;
+  }
+}
+
+.btn-secondary{
+  border: 1px solid #8c8c8c;
+  background-color: #8c8c8c;
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  &:hover{
+    background-color: #aeaeae;
+  }
+}

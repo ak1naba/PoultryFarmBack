@@ -1,3 +1,6 @@
+import '/src/assets/styles/base.scss'
+import '/src/assets/styles/form.scss'
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
