@@ -43,8 +43,6 @@ namespace PoultryFarmBack.Controllers
         [HttpPost]
         public IActionResult AddChicken([FromBody] Chicken chicken)
         {
-            if (chicken == null)
-                return BadRequest(new { message = "Некорректные данные." });
 
             if (_chickenService.AddChicken(chicken, out Dictionary<string, string> errors))
                 return CreatedAtAction(nameof(GetChickenById), new { id = chicken.Id }, chicken);

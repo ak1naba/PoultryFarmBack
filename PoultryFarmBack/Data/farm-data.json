@@ -39,6 +39,14 @@
       "EggsPerMonth": 18,
       "BreedId": 2,
       "CageId": 5
+    },
+    {
+      "Id": 6,
+      "Weight": 12,
+      "Age": 12,
+      "EggsPerMonth": 12,
+      "BreedId": 1,
+      "CageId": 3
     }
   ],
   "breeds": [
@@ -73,8 +81,8 @@
     },
     {
       "Id": 3,
-      "IsOccupied": false,
-      "ChickenId": null,
+      "IsOccupied": true,
+      "ChickenId": 6,
       "EmployeeId": 1
     },
     {
