@@ -14,7 +14,6 @@
             </select>
             <select v-model="chickenDTO.cageId" required>
               <option value=""></option>
-              <option value="1">1</option>
               <option v-for="cage in freeCages" :key="cage.id" :value="cage.id">
                 {{cage.id}}
               </option>
@@ -111,7 +110,6 @@
         axios.get('http://localhost:8080/api/breed')
         .then(res => {
           this.breeds = res.data;
-          this.breeds.push({id:4, name: 'fake', description: ''});
         })
         .catch(err => {
           console.log(err);
