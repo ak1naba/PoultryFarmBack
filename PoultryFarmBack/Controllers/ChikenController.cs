@@ -43,6 +43,8 @@ namespace PoultryFarmBack.Controllers
         [HttpPost]
         public IActionResult AddChicken([FromBody] Chicken chicken)
         {
+            if (chicken == null)
+                return BadRequest(new { message = "Некорректные данные." });
 
             if (_chickenService.AddChicken(chicken, out Dictionary<string, string> errors))
                 return CreatedAtAction(nameof(GetChickenById), new { id = chicken.Id }, chicken);
@@ -53,16 +55,25 @@ namespace PoultryFarmBack.Controllers
 
         // PUT: api/chicken/5
         [HttpPut("{id}")]
-        public IActionResult UpdateChicken(int id, [FromBody] Chicken chicken)
+       public IActionResult UpdateChicken(int id, [FromBody] Chicken chicken)
         {
             if (chicken == null || id != chicken.Id)
                 return BadRequest(new { message = "Некорректные данные." });
 
             if (_chickenService.UpdateChicken(chicken, out Dictionary<string, string> errors))
-                return NoContent();
+            {
+                // Получаем обновленный объект курицы с полными данными
+                var updatedChicken = _chickenService.GetChickenById(id);
+
+                if (updatedChicken == null)
+                    return NotFound(new { message = "Обновленный объект не найден." });
+
+                return Ok(updatedChicken);
+            }
 
             return UnprocessableEntity(new { errors });
         }
+
 
 
         // DELETE: api/chicken/5

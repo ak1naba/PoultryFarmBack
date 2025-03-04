@@ -33,15 +33,35 @@ public class ChickenService
         if (!_cages.Any(c => c.Id == chicken.CageId))
             errors["cageId"] = "Указанная клетка не существует.";
 
-        // Проверка занятости клетки при добавлении или смене клетки в обновлении
-        if (!isUpdate && (_cages.Any(c => c.Id == chicken.CageId && c.IsOccupied) &&
-                        _chickens.FirstOrDefault(c => c.Id == chicken.Id)?.CageId != chicken.CageId))
+        var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
+        if (cage == null)
         {
-            errors["cageId"] = "Выбранная клетка уже занята.";
+            errors["cageId"] = "Выбранная клетка не существует.";
+        }
+        else
+        {
+            if (isUpdate)
+            {
+                // Проверка, если клетка поменялась, тогда нужно учитывать её занятость
+                var existingChicken = _chickens.FirstOrDefault(c => c.Id == chicken.Id);
+                if (existingChicken != null && existingChicken.CageId != chicken.CageId && cage.IsOccupied)
+                {
+                    errors["cageId"] = "Выбранная клетка уже занята.";
+                }
+            }
+            else
+            {
+                // Если мы создаем новую курицу, то проверяем занятость клетки
+                if (cage.IsOccupied)
+                {
+                    errors["cageId"] = "Выбранная клетка уже занята.";
+                }
+            }
         }
 
         return errors;
     }
+
 
 
     // Загрузка данных из файла

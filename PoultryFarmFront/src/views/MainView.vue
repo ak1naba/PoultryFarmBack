@@ -1,41 +1,42 @@
 <template>
-    <BaseLayout>
-      <div v-if="!loading">
-        <transition name="fade" mode="out-in">
-          <form v-if="creation" @submit.prevent="storeChicken()" class="form-create">
-            <input v-model="chickenDTO.weight" type="number" placeholder="Вес" required>
-            <input v-model="chickenDTO.age" type="number" placeholder="Возраст" required>
-            <input v-model="chickenDTO.eggsPerMonth" type="number" placeholder="Яйценосонсть" required>
-            <select v-model="chickenDTO.breedId" required>
-              <option value=""></option>
-              <option v-for="breed in breeds" :key="breed.id" :value="breed.id">
-                {{breed.name}}
-              </option>
-            </select>
-            <select v-model="chickenDTO.cageId" required>
-              <option value=""></option>
-              <option v-for="cage in freeCages" :key="cage.id" :value="cage.id">
-                {{cage.id}}
-              </option>
-            </select>
-            <div>
-              <button class="btn-primary" type="submit"> Добавить </button>
-            </div>
-            <div class="form-create__errors" v-if="errorCreation">
-              <ul>
-                <li v-for="(error, index) in errorCreation" :key="index">
-                  {{ error }}
-                </li>
-              </ul>
-            </div>
-          </form>
-        </transition>
-        <div class="chickens">
-          <div class="chickens-action">
-            <button v-if="!creation" class="btn-primary" @click="creation = true"> Добавить </button>
-            <button v-else class="btn-secondary" @click="creation = false"> Отмена </button>
+  <BaseLayout>
+    <div v-if="!loading">
+      <transition name="fade" mode="out-in">
+        <form v-if="creation" @submit.prevent="storeChicken()" class="form-create">
+          <input v-model="chickenDTO.weight" type="number" step="0.1" placeholder="Вес" required>
+          <input v-model="chickenDTO.age" type="number" step="0.1" placeholder="Возраст" required>
+          <input v-model="chickenDTO.eggsPerMonth" type="number" step="0.1" placeholder="Яйценосонсть" required>
+          <select v-model="chickenDTO.breedId" required>
+            <option value=""></option>
+            <option v-for="breed in breeds" :key="breed.id" :value="breed.id">
+              {{ breed.name }}
+            </option>
+          </select>
+          <select v-model="chickenDTO.cageId" required>
+            <option value=""></option>
+            <option v-for="cage in freeCages" :key="cage.id" :value="cage.id">
+              {{ cage.id }}
+            </option>
+          </select>
+          <div>
+            <button class="btn-primary" type="submit"> Добавить </button>
           </div>
-          <div class="chickens-item" v-for="chicken in chickens" :key="chicken.id">
+          <div class="form-create__errors" v-if="errorCreation">
+            <ul>
+              <li v-for="(error, index) in errorCreation" :key="index">
+                {{ error }}
+              </li>
+            </ul>
+          </div>
+        </form>
+      </transition>
+      <div class="chickens">
+        <div class="chickens-action">
+          <button v-if="!creation" class="btn-primary" @click="creation = true"> Добавить </button>
+          <button v-else class="btn-secondary" @click="creation = false"> Отмена </button>
+        </div>
+        <div class="chickens-item" v-for="chicken in chickens" :key="chicken.id">
+          <slot v-if="!chicken.editing">
             <div class="chickens-item__character">
               <span class="chickens-item__character-label"> Номер курицы </span> {{ chicken.id }}
             </div>
@@ -54,111 +55,166 @@
             <div class="chickens-item__character">
               <span class="chickens-item__character-label"> Клетка </span> {{ chicken.cage.id }}
             </div>
-          </div>
+            <button class="btn-secondary" @click="toggleEdit(chicken)"> Редактировать </button>
+          </slot>
+          <form v-else @submit.prevent="updateChicken(chicken)" class="form-update">
+            <div class="form-update__title"></div>Редактирование курицы {{chicken.id}}
+            <input v-model="chicken.weight" type="number" step="0.1" placeholder="Вес" required>
+            <input v-model="chicken.age" type="number" step="0.1" placeholder="Возраст" required>
+            <input v-model="chicken.eggsPerMonth" type="number" step="0.1" placeholder="Яйценосонсть" required>
+            <select v-model="chicken.breedId" required>
+              <option v-for="breed in breeds" :key="breed.id" :value="breed.id">
+                {{ breed.name }}
+              </option>
+            </select>
+            <select v-model="chicken.cageId" required>
+              <option :value="chicken.cage.id">{{chicken.cage.id}}</option>
+              <option v-for="cage in freeCages" :key="cage.id" :value="cage.id">
+                {{ cage.id }}
+              </option>
+            </select>
+            <div class="form-update__buttons">
+              <button class="btn-primary" type="submit"> Сохранить </button>
+              <button class="btn-secondary" type="button" @click="toggleEdit(chicken)"> Отмена </button>
+            </div>
+            <div class="form-update__errors" v-if="errorUpdating">
+              <ul>
+                <li v-for="(error, index) in errorUpdating" :key="index">
+                  {{ error }}
+                </li>
+              </ul>
+            </div>
+          </form>
         </div>
       </div>
-      <div v-else>
-        Loading...
-      </div>
-    </BaseLayout>
-  </template>
-  
-  <script>
-  import BaseLayout from '@/layouts/BaseLayout.vue';
-  import axios from 'axios';
-  
-  export default {
-    name: 'MainView',
-    components: {
-      BaseLayout
-    },
-    data() {
-      return {
-        loading: true,
-        creation: false,
-        chickens: [],
-        breeds: [],
-        cages: [],
-        freeCages: [],
+    </div>
+    <div v-else>
+      Loading...
+    </div>
+  </BaseLayout>
+</template>
 
-        chickenDTO:{
-          weight: '',
-          age: '',
-          eggsPerMonth: '',
-          breedId: '',
-          cageId: '',
-        },
+<script>
+import BaseLayout from '@/layouts/BaseLayout.vue';
+import axios from 'axios';
 
-        errorCreation: [],
-      };
-    },
-    methods: {
-      getchickens() {
-        this.loading = true;
-        axios.get('http://localhost:8080/api/chicken')
-            .then(res => {
-              this.chickens = res.data;
-            })
-            .catch(err => {
-              console.log(err);
-            })
-            .finally(() => {
-              this.loading = false;
-            })
+export default {
+  name: 'MainView',
+  components: {
+    BaseLayout
+  },
+  data() {
+    return {
+      loading: true,
+      creation: false,
+      chickens: [],
+      breeds: [],
+      cages: [],
+      freeCages: [],
+      chickenDTO: {
+        weight: '',
+        age: '',
+        eggsPerMonth: '',
+        breedId: '',
+        cageId: '',
       },
-      getBreeds() {
-        axios.get('http://localhost:8080/api/breed')
-        .then(res => {
-          this.breeds = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        })
-      },
-      getCages() {
-        axios.get('http://localhost:8080/api/cage')
-        .then(res => {
-          this.cages = res.data;
-
-          this.cages.forEach((cage) => {
-            if (!cage.isOccupied)
-              this.freeCages.push(cage);
+      errorCreation: [],
+      errorUpdating: [],
+    };
+  },
+  methods: {
+    getchickens() {
+      this.loading = true;
+      axios.get('http://localhost:8080/api/chicken')
+          .then(res => {
+            this.chickens = res.data.map(chicken => ({
+              ...chicken,
+              editing: false
+            }));
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.loading = false;
           });
-        })
-        .catch(err => {
-          console.log(err);
-        })
-      },
-
-      storeChicken() {
-        this.errorCreation = [];
-
-        const chicken = {
-          "weight":  Number(this.chickenDTO.weight),
-          "age":  Number(this.chickenDTO.age),
-          "eggsPerMonth":  Number(this.chickenDTO.eggsPerMonth),
-          "breedId": Number(this.chickenDTO.breedId),
-          "cageId": Number(this.chickenDTO.cageId)
-        };
-
-        axios.post('http://localhost:8080/api/chicken', chicken)
-        .then(res => {
-          this.getchickens();
-        })
-        .catch(err => {
-          this.errorCreation = err.response.data.errors;
-          console.log(this.errorCreation);
-        })
-      }
     },
-    mounted() {
-      this.getchickens();
-      this.getBreeds();
-      this.getCages();
+    getBreeds() {
+      axios.get('http://localhost:8080/api/breed')
+          .then(res => {
+            this.breeds = res.data;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    },
+    getCages() {
+      axios.get('http://localhost:8080/api/cage')
+          .then(res => {
+            this.cages = res.data;
+            this.freeCages = this.cages.filter(cage => !cage.isOccupied);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    },
+    storeChicken() {
+      this.errorCreation = [];
+      const chicken = {
+        weight: Number(this.chickenDTO.weight),
+        age: Number(this.chickenDTO.age),
+        eggsPerMonth: Number(this.chickenDTO.eggsPerMonth),
+        breedId: Number(this.chickenDTO.breedId),
+        cageId: Number(this.chickenDTO.cageId)
+      };
+      axios.post('http://localhost:8080/api/chicken', chicken)
+          .then(res => {
+            this.getchickens();
+          })
+          .catch(err => {
+            this.errorCreation = err.response.data.errors;
+            console.log(this.errorCreation);
+          });
+    },
+    toggleEdit(chicken) {
+      chicken.editing = !chicken.editing;
+    },
+    updateChicken(chicken) {
+      this.errorsUpdating = [];
+      const chickenDTO = {
+        id: Number(chicken.id),
+        weight: Number(chicken.weight),
+        age: Number(chicken.age),
+        eggsPerMonth: Number(chicken.eggsPerMonth),
+        breedId: Number(chicken.breedId),
+        cageId: Number(chicken.cageId)
+      };
+      axios.put(`http://localhost:8080/api/chicken/${chicken.id}`, chickenDTO)
+          .then(res => {
+            const updatedChicken = res.data;
+
+            this.chickens = this.chickens.map(chicken =>
+                chicken.id === updatedChicken.id ? updatedChicken : chicken
+            );
+
+            console.log("Курица обновлена:", updatedChicken);
+            chicken.editing = false;
+          })
+          .catch(err => {
+            this.errorUpdating = err.response?.data?.errors || "Ошибка при обновлении";
+            console.log(this.errorUpdating);
+          });
     }
-  };
-  </script>
-  
+  },
+  mounted() {
+    this.getchickens();
+    this.getBreeds();
+    this.getCages();
+  }
+};
+</script>
+
+
 <style lang="scss" scoped>
 .form-create {
   display: flex;
@@ -201,6 +257,27 @@
       &-label{
         font-size: 10px !important;
         color: gray;
+      }
+    }
+
+    .form-update{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      margin-bottom: 25px;
+
+      &__errors {
+        padding-left: 25px;
+        color: #910303;
+        font-weight: 600;
+      }
+
+      &__buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
       }
     }
   }
