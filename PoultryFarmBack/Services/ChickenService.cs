@@ -183,8 +183,7 @@ public class ChickenService
             var cage = _cages.FirstOrDefault(c => c.Id == chicken.CageId);
             if (cage != null)
             {
-                cage.IsOccupied = false;
-                cage.ChickenId = null;
+                 _cageService.RemoveChickenFromCage(cage.Id);
             }
             SaveData();
         }

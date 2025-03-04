@@ -56,3 +56,18 @@ button{
     background-color: #aeaeae;
   }
 }
+.btn-danger{
+  border: 1px solid #e33131;
+  background-color: #e33131;
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  &:hover{
+    background-color: #bc2929;
+  }
+}

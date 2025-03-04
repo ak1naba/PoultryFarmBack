@@ -76,6 +76,7 @@
             <div class="form-update__buttons">
               <button class="btn-primary" type="submit"> Сохранить </button>
               <button class="btn-secondary" type="button" @click="toggleEdit(chicken)"> Отмена </button>
+              <button class="btn-danger" type="button" @click.prevent="deleteChicken(chicken)"> Удалить </button>
             </div>
             <div class="form-update__errors" v-if="errorUpdating">
               <ul>
@@ -97,6 +98,7 @@
 <script>
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 export default {
   name: 'MainView',
@@ -191,19 +193,40 @@ export default {
       };
       axios.put(`http://localhost:8080/api/chicken/${chicken.id}`, chickenDTO)
           .then(res => {
-            const updatedChicken = res.data;
-
-            this.chickens = this.chickens.map(chicken =>
-                chicken.id === updatedChicken.id ? updatedChicken : chicken
-            );
-
-            console.log("Курица обновлена:", updatedChicken);
+            console.log(res.data);
+            this.getchickens();
+            this.getCages();
             chicken.editing = false;
           })
           .catch(err => {
             this.errorUpdating = err.response?.data?.errors || "Ошибка при обновлении";
             console.log(this.errorUpdating);
           });
+    },
+    deleteChicken(chicken) {
+      Swal.fire({
+        title: 'Вы уверены?',
+        text: 'Это действие нельзя отменить!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Да, удалить!',
+        cancelButtonText: 'Отмена'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`http://localhost:8080/api/chicken/${chicken.id}`)
+              .then(() => {
+                Swal.fire('Удалено!', 'Курица успешно удалена.', 'success');
+                this.getchickens();
+                this.getCages();
+              })
+              .catch(err => {
+                Swal.fire('Ошибка!', 'Не удалось удалить курицу.', 'error');
+                console.log(err);
+              });
+        }
+      });
     }
   },
   mounted() {
