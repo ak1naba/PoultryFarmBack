@@ -12,7 +12,12 @@ export default {
           <img src="../assets/icons/chicken-logo.png" alt="logo">
         </div>
         <div class="navbar-container__links">
-
+          <router-link class="header-link" :to="{name: 'home'}">
+            Главная
+          </router-link>
+          <router-link class="header-link" :to="{name: 'statistics'}">
+            Статистический раздел
+          </router-link>
         </div>
       </div>
     </div>
@@ -23,51 +28,50 @@ export default {
 <style scoped>
 header {
   padding: 20px 0px;
-  background-image: url("../assets/images/field.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  url("../assets/images/field.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  position: relative;
-
-  &:before{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color:rgba(0, 0, 0, .5);
-  }
-
 }
 
-.header{
-  @media (max-width: 1920px) {
-    width: 1440px;
-    margin: 0 auto;
-  }
+.header {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+
   @media (max-width: 1440px) {
-    width: 1280px;
-    margin: 0 auto;
+    max-width: 1280px;
   }
+
   @media (max-width: 1280px) {
-    width: 720px;
-    margin: 0 auto;
+    max-width: 720px;
   }
+
   @media (max-width: 720px) {
-    width: 480px;
-    margin: 0 auto;
+    max-width: 480px;
   }
 }
+
 
 .navbar-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
+  &__links{
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: center;
+  }
 
+}
+
+.header-link{
+  text-decoration: none;
+  color: white;
 }
 </style>

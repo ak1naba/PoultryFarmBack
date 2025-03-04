@@ -6,33 +6,34 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Swagger/OpenAPI настройка
+// Swagger/OpenAPI пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Пример явной регистрации ChickenService
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ChickenService
 builder.Services.AddScoped<ChickenService>();
 builder.Services.AddScoped<CageService>();
 builder.Services.AddScoped<BreedService>();
+builder.Services.AddScoped<EmployeeService>();
 
-// Явная регистрация JsonFileService с передачей строки
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ JsonFileService пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddSingleton<JsonFileService>(provider =>
     new JsonFileService("/app/Data/farm-data.json"));
 
-// Настройка CORS
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.AllowAnyOrigin() // Разрешить запросы с любого источника
-              .AllowAnyMethod() // Разрешить любые HTTP-методы (GET, POST, PUT и т.д.)
-              .AllowAnyHeader(); // Разрешить любые заголовки
+        policy.AllowAnyOrigin() // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+              .AllowAnyMethod() // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ HTTP-пїЅпїЅпїЅпїЅпїЅпїЅ (GET, POST, PUT пїЅ пїЅ.пїЅ.)
+              .AllowAnyHeader(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     });
 });
 
 var app = builder.Build();
 
-// Использование CORS
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CORS
 app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.

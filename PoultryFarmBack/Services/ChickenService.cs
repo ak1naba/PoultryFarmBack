@@ -69,7 +69,7 @@ public class ChickenService
     {
         _chickens = _jsonFileService.ReadFromFile<Chicken>("chickens");
         _breeds = _jsonFileService.ReadFromFile<Breed>("breeds");
-        _cages = _jsonFileService.ReadFromFile<Cage>("cages");
+        _cages = _cageService.GetAll();
 
         // Связываем кур с их породами и клетками, но не сохраняем в файл их объекты
         foreach (var chicken in _chickens)
