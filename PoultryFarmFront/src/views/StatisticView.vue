@@ -27,10 +27,9 @@
           <div class="statistics-items__low-title">
             Курицы снесшие меньше яиц чем, средняя яйценосность по фабрике
           </div>
-          <div v-if="!lowChickenLoading">Loading...</div>
+          <div v-if="lowChickenLoading">Loading...</div>
           <div v-else class="chickens">
             <div class="chickens-item" v-for="chicken in lowChickens" :key="chicken.id">
-
                 <div class="chickens-item__character">
                   <span class="chickens-item__character-label"> Номер курицы </span> {{ chicken.id }}
                 </div>
@@ -53,6 +52,19 @@
           </div>
         </div>
 
+        <div class="statistics-items__highest">
+          <div class="statistics-items__highest-title">
+            Клетка с наилучшим показателем
+          </div>
+          <div v-if="highestCageLoading">
+            Loading...
+          </div>
+          <div v-else class="statistics-items__highest-answer">
+            Клетка с наилучшим показателем <b>{{highestCage.id}}</b>
+            <br>
+            Сотрудник <b>{{highestCage.employee.fullName}}</b>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -81,6 +93,9 @@ export default {
 
       lowChickenLoading: true,
       lowChickens: [],
+
+      highestCageLoading: true,
+      highestCage: null,
     };
   },
   methods: {
@@ -97,16 +112,29 @@ export default {
       axios.get('http://localhost:8080/api/chicken/low-average')
           .then(res=>{
             this.lowChickens = res.data;
-            this.lowChickenLoading = true;
+            this.lowChickenLoading = false;
           })
           .catch(err=>{
             console.log(err)
-            this.lowChickenLoading = true;
+            this.lowChickenLoading = false;
+          })
+    },
+    getHighestCage(){
+      axios.get('http://localhost:8080/api/chicken/highest')
+          .then(res=>{
+            console.log(res)
+            this.highestCage = res.data;
+            this.highestCageLoading = false;
+          })
+          .catch(err=>{
+            console.log(err)
+            this.highestCageLoading = false;
           })
     }
   },
   mounted() {
     this.getLowChickens();
+    this.getHighestCage();
   }
 };
 </script>
@@ -187,6 +215,17 @@ export default {
               }
             }
           }
+        }
+      }
+
+      &__highest{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        &-title{
+          font-size: 18px;
+          font-weight: 600;
         }
       }
     }
