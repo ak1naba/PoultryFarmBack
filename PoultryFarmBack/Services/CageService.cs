@@ -81,4 +81,76 @@ public class CageService
         }
     }
 
+    public Dictionary<string, string> ValidateCage(Cage cage)
+    {
+        var errors = new Dictionary<string, string>();
+
+        if (!_employees.Any(e => e.Id == cage.EmployeeId))
+        {
+            errors["employeeId"] = "Указанный сотрудник не существует.";
+        }
+
+        return errors;
+    }
+
+    public bool AddCage(Cage cage, out Dictionary<string, string> errors){
+        errors = ValidateCage(cage);
+        if (errors.Count > 0)
+            return false;
+        
+        cage.Id = _cages.Any() ? _cages.Max(c => c.Id) + 1 : 1;
+        cage.IsOccupied = false;
+        cage.ChickenId = null;
+
+        _cages.Add(cage);
+
+        SaveData();
+        return true;
+    }
+
+    public bool UpdateCage(Cage cage, out Dictionary<string, string> errors)
+    {
+        var existingCage = _cages.FirstOrDefault(c => c.Id == cage.Id);
+        if (existingCage == null)
+        {
+            errors = new Dictionary<string, string> { { "id", "Клетка с таким ID не найдена." } };
+            return false;
+        }
+
+        errors = ValidateCage(cage);
+        if (errors.Count > 0)
+            return false;
+
+        existingCage.EmployeeId = cage.EmployeeId;
+
+        SaveData();
+        return true;
+    }
+    
+    public bool DeleteCage(int id, out Dictionary<string, string> errors)
+    {
+        errors = new Dictionary<string, string>();
+        var cage = _cages.FirstOrDefault(c => c.Id == id);
+        if (cage != null)
+        {
+            if (!cage.IsOccupied)
+            {
+                _cages.Remove(cage);
+                SaveData();
+                return true;
+            }
+            else
+            {
+                errors["id"] = "Клетка занята и не может быть удалена.";
+                return false;
+            }
+        }
+        else
+        {
+            errors["id"] = "Клетка с таким ID не найдена.";
+            return false;
+        }
+    }
+
+
 }

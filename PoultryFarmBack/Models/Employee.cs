@@ -8,6 +8,6 @@
         public decimal Salary { get; set; } 
 
         // Foreing classes
-        public List<int> CageIds { get; set; }
+        public List<Cage>? Cages { get; set; }
     }
 }

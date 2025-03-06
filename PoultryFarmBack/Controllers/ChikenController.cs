@@ -55,7 +55,7 @@ namespace PoultryFarmBack.Controllers
 
         // PUT: api/chicken/5
         [HttpPut("{id}")]
-       public IActionResult UpdateChicken(int id, [FromBody] Chicken chicken)
+        public IActionResult UpdateChicken(int id, [FromBody] Chicken chicken)
         {
             if (chicken == null || id != chicken.Id)
                 return BadRequest(new { message = "Некорректные данные." });
