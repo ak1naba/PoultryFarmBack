@@ -20,7 +20,7 @@
       "Id": 4,
       "Weight": 4,
       "Age": 11,
-      "EggsPerMonth": 4,
+      "EggsPerMonth": 50,
       "BreedId": 3,
       "CageId": 4
     },
@@ -31,14 +31,6 @@
       "EggsPerMonth": 18,
       "BreedId": 2,
       "CageId": 5
-    },
-    {
-      "Id": 6,
-      "Weight": 1111,
-      "Age": 11,
-      "EggsPerMonth": 1,
-      "BreedId": 3,
-      "CageId": 1
     }
   ],
   "breeds": [
@@ -61,8 +53,8 @@
   "cages": [
     {
       "Id": 1,
-      "IsOccupied": true,
-      "ChickenId": 6,
+      "IsOccupied": false,
+      "ChickenId": null,
       "EmployeeId": 2
     },
     {
@@ -94,6 +86,30 @@
       "IsOccupied": false,
       "ChickenId": null,
       "EmployeeId": 2
+    },
+    {
+      "Id": 7,
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 1
+    },
+    {
+      "Id": 8,
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 2
+    },
+    {
+      "Id": 9,
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 1
+    },
+    {
+      "Id": 10,
+      "IsOccupied": false,
+      "ChickenId": null,
+      "EmployeeId": 1
     }
   ],
   "employee": [

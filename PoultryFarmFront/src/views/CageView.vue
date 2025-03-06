@@ -111,18 +111,14 @@ export default {
             this.loading = false;
           });
     },
-    storCage() {
+    storeCage() {
       this.errorCreation = [];
-      const chicken = {
-        weight: Number(this.chickenDTO.weight),
-        age: Number(this.chickenDTO.age),
-        eggsPerMonth: Number(this.chickenDTO.eggsPerMonth),
-        breedId: Number(this.chickenDTO.breedId),
-        cageId: Number(this.chickenDTO.cageId)
+      const cage = {
+        employeeId: Number(this.cageCreation.employeeId)
       };
-      axios.post('http://localhost:8080/api/chicken', chicken)
+      axios.post('http://localhost:8080/api/cage', cage)
           .then(res => {
-            this.getchickens();
+            this.getCages();
             this.creation = false;
           })
           .catch(err => {
@@ -135,23 +131,20 @@ export default {
     },
     updateCage(cage) {
       this.errorsUpdating = [];
-      const chickenDTO = {
-        id: Number(chicken.id),
-        weight: Number(chicken.weight),
-        age: Number(chicken.age),
-        eggsPerMonth: Number(chicken.eggsPerMonth),
-        breedId: Number(chicken.breedId),
-        cageId: Number(chicken.cageId)
+      const cageDTO = {
+        id: cage.id,
+        employeeId: Number(cage.employeeId)
       };
-      axios.put(`http://localhost:8080/api/chicken/${chicken.id}`, chickenDTO)
+      axios.put(`http://localhost:8080/api/cage/${cage.id}`, cageDTO)
           .then(res => {
             console.log(res.data);
-            this.getchickens();
             this.getCages();
+            this.getEmployees();
             chicken.editing = false;
+            this.errorsUpdating = [];
           })
           .catch(err => {
-            this.errorUpdating = err.response?.data?.errors || "Ошибка при обновлении";
+            this.errorUpdating = err.response.data.errors;
             console.log(this.errorUpdating);
           });
     },
@@ -167,10 +160,9 @@ export default {
         cancelButtonText: 'Отмена'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`http://localhost:8080/api/chicken/${chicken.id}`)
+          axios.delete(`http://localhost:8080/api/cage/${cage.id}`)
               .then(() => {
                 Swal.fire('Удалено!', 'Курица успешно удалена.', 'success');
-                this.getchickens();
                 this.getCages();
               })
               .catch(err => {
