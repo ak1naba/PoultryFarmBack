@@ -1,14 +1,6 @@
 {
   "chickens": [
     {
-      "Id": 1,
-      "Weight": 2,
-      "Age": 1,
-      "EggsPerMonth": 18,
-      "BreedId": 2,
-      "CageId": 6
-    },
-    {
       "Id": 2,
       "Weight": 3,
       "Age": 11,
@@ -39,6 +31,14 @@
       "EggsPerMonth": 18,
       "BreedId": 2,
       "CageId": 5
+    },
+    {
+      "Id": 6,
+      "Weight": 1111,
+      "Age": 11,
+      "EggsPerMonth": 1,
+      "BreedId": 3,
+      "CageId": 1
     }
   ],
   "breeds": [
@@ -61,8 +61,8 @@
   "cages": [
     {
       "Id": 1,
-      "IsOccupied": false,
-      "ChickenId": null,
+      "IsOccupied": true,
+      "ChickenId": 6,
       "EmployeeId": 1
     },
     {
@@ -91,15 +91,15 @@
     },
     {
       "Id": 6,
-      "IsOccupied": true,
-      "ChickenId": 1,
+      "IsOccupied": false,
+      "ChickenId": null,
       "EmployeeId": 2
     }
   ],
   "employee": [
     {
       "Id": 1,
-      "FullName": "Иванов",
+      "FullName": "\u0418\u0432\u0430\u043D\u043E\u0432",
       "Salary": 50000.00,
       "CageIds": [
         1,
@@ -110,7 +110,7 @@
     },
     {
       "Id": 2,
-      "FullName": "Смирнов",
+      "FullName": "\u0421\u043C\u0438\u0440\u043D\u043E\u0432",
       "Salary": 50000.00,
       "CageIds": [
         5,

@@ -15,6 +15,9 @@ export default {
           <router-link class="header-link" :to="{name: 'home'}">
             Главная
           </router-link>
+          <router-link class="header-link" :to="{name: 'cages'}">
+            Клетки
+          </router-link>
           <router-link class="header-link" :to="{name: 'statistics'}">
             Статистический раздел
           </router-link>
@@ -25,7 +28,7 @@ export default {
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 header {
   padding: 20px 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),

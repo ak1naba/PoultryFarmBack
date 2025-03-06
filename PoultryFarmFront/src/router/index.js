@@ -14,6 +14,11 @@ const router = createRouter({
       name: 'statistics',
       component: () => import('@/views/StatisticView.vue')
     },
+    {
+      path: '/cages',
+      name: 'cages',
+      component: () => import('@/views/CageView.vue')
+    },
     
   ],
 })
