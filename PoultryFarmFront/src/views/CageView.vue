@@ -162,7 +162,7 @@ export default {
         if (result.isConfirmed) {
           axios.delete(`http://localhost:8080/api/cage/${cage.id}`)
               .then(() => {
-                Swal.fire('Удалено!', 'Курица успешно удалена.', 'success');
+                Swal.fire('Удалено!', 'Клетка успешно удалена.', 'success');
                 this.getCages();
               })
               .catch(err => {

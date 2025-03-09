@@ -26,7 +26,6 @@ public class CageService
         foreach (var cage in _cages)
         {
             var foundEmployee = _employees.FirstOrDefault(b => b.Id == cage.EmployeeId);
-            Console.WriteLine(foundEmployee.FullName);
             
             cage.Employee = foundEmployee;
         }
