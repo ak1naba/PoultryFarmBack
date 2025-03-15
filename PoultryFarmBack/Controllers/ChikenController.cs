@@ -112,6 +112,8 @@ namespace PoultryFarmBack.Controllers
 
             return Ok(cage);
         }
+        
+        
 
     }
 }

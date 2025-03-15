@@ -81,5 +81,32 @@ namespace PoultryFarmBack.Controllers
 
             return NotFound(errors);
         }
+        
+        // GET: api/employee/GetEggsPerEmployee
+        [HttpGet("GetEggsPerEmployee")]
+        public IActionResult GetEmployeeEggsPerEmployee()
+        {
+            var employeeEggsPerEmployee = _employeeService.GetEmployeeEggsData();
+            return Ok(employeeEggsPerEmployee);
+        }
+        
+        // GET: api/employee/GetChickensPerEmployee
+        [HttpGet("GetChickensPerEmployee")]
+        public IActionResult GetChickensPerEmployee()
+        {
+            var employeeEggsPerEmployee = _employeeService.GetEmployeeChickensData();
+            return Ok(employeeEggsPerEmployee);
+        }
+
+        // GET: api/employee/GetAllPriceEggs
+        [HttpGet("GetAllPriceEggs")]
+        public IActionResult GetAllPriceEggs([FromQuery] double pricePerEgg)
+        {
+            if (pricePerEgg <= 0)
+                return BadRequest(new { message = "Некорректные данные." });
+
+            var data = _employeeService.GetAllPriceEggsData(pricePerEgg);
+            return Ok(new { data });
+        }
     }
 }

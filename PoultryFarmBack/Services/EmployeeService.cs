@@ -9,6 +9,7 @@ public class EmployeeService
     private readonly JsonFileService _jsonFileService;
     private List<Employee> _employees;
     private List<Cage> _cages;
+    private List<Chicken> _chickens;
 
 
     public EmployeeService(JsonFileService jsonFileService)
@@ -21,6 +22,7 @@ public class EmployeeService
     {
         _employees = _jsonFileService.ReadFromFile<Employee>("employee");
         _cages = _jsonFileService.ReadFromFile<Cage>("cages");
+        _chickens = _jsonFileService.ReadFromFile<Chicken>("chickens");
 
         foreach (var employee in _employees)
         {
@@ -31,14 +33,11 @@ public class EmployeeService
                 if (cage.EmployeeId == employee.Id)
                 {
                     employee.Cages.Add(cage);
-                    Console.WriteLine($"Клетка {cage.Id} привязана к сотруднику {employee.Id}");
                 }
                 
             }
         }
     }
-
-
 
     private void SaveData()
     {
@@ -82,7 +81,6 @@ public class EmployeeService
 
         existingEmployee.FullName = updatedEmployee.FullName;
         existingEmployee.Salary = updatedEmployee.Salary;
-        // Добавьте обновление других полей при необходимости
 
         SaveData();
         return true;
@@ -121,4 +119,80 @@ public class EmployeeService
 
         return errors;
     }
+
+    public List<object> GetEmployeeEggsData()
+    {
+        var employeeEggsData = new List<object>();
+
+        foreach (var employee in _employees)
+        {
+            int totalEggs = 0;
+
+            foreach (var cage in employee.Cages)
+            {
+                var chicken = _chickens.FirstOrDefault(c => c.CageId == cage.Id);
+                
+                if (chicken != null)
+                {
+                    totalEggs += chicken.EggsPerMonth;
+                }
+            }
+
+            employeeEggsData.Add(new { id = employee.Id, fullname = employee.FullName, eggs = totalEggs });
+        }
+
+        return employeeEggsData;
+    }
+    
+    public List<object> GetEmployeeChickensData()
+    {
+        var employeeEggsData = new List<object>();
+
+        foreach (var employee in _employees)
+        {
+            int totalChikens = 0;
+
+            foreach (var cage in employee.Cages)
+            {
+                var chicken = _chickens.FirstOrDefault(c => c.CageId == cage.Id);
+                
+                if (chicken != null)
+                {
+                    totalChikens += 1;
+                }
+            }
+
+            employeeEggsData.Add(new { id = employee.Id, fullname = employee.FullName, chickens = totalChikens });
+        }
+
+        return employeeEggsData;
+    }
+
+    public object GetAllPriceEggsData(double pricePerEgg)
+    {
+       
+        
+        int totalEggs = 0;
+        
+        foreach (var employee in _employees)
+        {
+
+            foreach (var cage in employee.Cages)
+            {
+                var chicken = _chickens.FirstOrDefault(c => c.CageId == cage.Id);
+                
+                if (chicken != null)
+                {
+                    totalEggs += chicken.EggsPerMonth;
+                }
+            }
+            
+        }
+        
+        double totalPrice = totalEggs * pricePerEgg;
+
+        return new {total_eggs = totalEggs, total_price = totalPrice, price_per_egg = pricePerEgg};
+    }
+
+
 }
