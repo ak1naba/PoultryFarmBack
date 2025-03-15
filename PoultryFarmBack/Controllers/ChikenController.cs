@@ -86,7 +86,7 @@ namespace PoultryFarmBack.Controllers
 
         // GET: api/chicken/average-eggs
         [HttpGet("average-eggs")]
-        public IActionResult GetAverageEggsPerMonth([FromQuery] double minWeight, [FromQuery] double maxWeight, [FromQuery] int minAge, [FromQuery] int maxAge)
+        public IActionResult GetAverageEggsPerMonth([FromQuery] double minWeight, [FromQuery] double maxWeight, [FromQuery] double minAge, [FromQuery] double maxAge)
         {
             if (minWeight > maxWeight || minAge > maxAge)
                 return BadRequest(new { message = "Некорректные диапазоны." });

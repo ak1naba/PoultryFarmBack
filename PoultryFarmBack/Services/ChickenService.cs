@@ -188,7 +188,7 @@ public class ChickenService
             SaveData();
         }
     }
-    public double GetAverageEggsPerMonth(double minWeight, double maxWeight, int minAge, int maxAge)
+    public double GetAverageEggsPerMonth(double minWeight, double maxWeight, double minAge, double maxAge)
     {
         var filteredChickens = _chickens
             .Where(c => c.Weight >= minWeight && c.Weight <= maxWeight &&
