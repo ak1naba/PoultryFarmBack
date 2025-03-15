@@ -138,7 +138,7 @@ public class EmployeeService
                 }
             }
 
-            employeeEggsData.Add(new { id = employee.Id, fullname = employee.FullName, eggs = totalEggs });
+            employeeEggsData.Add(new { id = employee.Id, fullName = employee.FullName, eggs = totalEggs });
         }
 
         return employeeEggsData;
@@ -162,7 +162,7 @@ public class EmployeeService
                 }
             }
 
-            employeeEggsData.Add(new { id = employee.Id, fullname = employee.FullName, chickens = totalChikens });
+            employeeEggsData.Add(new { id = employee.Id, fullName = employee.FullName, chickens = totalChikens });
         }
 
         return employeeEggsData;
