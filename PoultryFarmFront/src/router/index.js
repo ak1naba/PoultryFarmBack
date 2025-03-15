@@ -19,7 +19,11 @@ const router = createRouter({
       name: 'cages',
       component: () => import('@/views/CageView.vue')
     },
-    
+    {
+      path: '/employee',
+      name: 'employee',
+      component: () => import('@/views/EmployeeView.vue')
+    },
   ],
 })
 

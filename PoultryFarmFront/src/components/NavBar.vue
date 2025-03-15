@@ -18,6 +18,9 @@ export default {
           <router-link class="header-link" :to="{name: 'cages'}">
             Клетки
           </router-link>
+          <router-link class="header-link" :to="{name: 'employee'}">
+            Сотрудники
+          </router-link>
           <router-link class="header-link" :to="{name: 'statistics'}">
             Статистический раздел
           </router-link>
