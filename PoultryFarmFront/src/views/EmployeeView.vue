@@ -119,6 +119,7 @@ export default {
           .then(res => {
             console.log(res)
             this.creation = false;
+            this.getEmployees()
           })
           .catch(err => {
             this.errorCreation = err.response.data.errors;

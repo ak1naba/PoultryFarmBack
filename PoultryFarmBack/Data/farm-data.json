@@ -29,7 +29,7 @@
       "Weight": 10,
       "Age": 10,
       "EggsPerMonth": 18,
-      "BreedId": 2,
+      "BreedId": 3,
       "CageId": 5
     }
   ],
@@ -98,12 +98,6 @@
       "IsOccupied": false,
       "ChickenId": null,
       "EmployeeId": 2
-    },
-    {
-      "Id": 9,
-      "IsOccupied": false,
-      "ChickenId": null,
-      "EmployeeId": 3
     }
   ],
   "employee": [
@@ -179,17 +173,15 @@
     },
     {
       "Id": 3,
-      "FullName": "\u0441\u0438\u0434\u043E\u0440\u043E\u0432",
-      "Salary": 5213,
-      "Cages": [
-        {
-          "Id": 9,
-          "IsOccupied": false,
-          "ChickenId": null,
-          "EmployeeId": 3,
-          "Employee": null
-        }
-      ]
+      "FullName": "dfdf",
+      "Salary": 12231,
+      "Cages": []
+    },
+    {
+      "Id": 4,
+      "FullName": "fdf",
+      "Salary": 213,
+      "Cages": null
     }
   ]
 }
