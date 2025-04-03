@@ -103,13 +103,7 @@
       "Id": 9,
       "IsOccupied": false,
       "ChickenId": null,
-      "EmployeeId": 1
-    },
-    {
-      "Id": 10,
-      "IsOccupied": false,
-      "ChickenId": null,
-      "EmployeeId": 1
+      "EmployeeId": 3
     }
   ],
   "employee": [
@@ -145,27 +139,13 @@
           "ChickenId": null,
           "EmployeeId": 1,
           "Employee": null
-        },
-        {
-          "Id": 9,
-          "IsOccupied": false,
-          "ChickenId": null,
-          "EmployeeId": 1,
-          "Employee": null
-        },
-        {
-          "Id": 10,
-          "IsOccupied": false,
-          "ChickenId": null,
-          "EmployeeId": 1,
-          "Employee": null
         }
       ]
     },
     {
       "Id": 2,
       "FullName": "\u0421\u043C\u0438\u0440\u043D\u043E\u0432",
-      "Salary": 500005,
+      "Salary": 500000,
       "Cages": [
         {
           "Id": 1,
@@ -193,6 +173,20 @@
           "IsOccupied": false,
           "ChickenId": null,
           "EmployeeId": 2,
+          "Employee": null
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "FullName": "\u0441\u0438\u0434\u043E\u0440\u043E\u0432",
+      "Salary": 5213,
+      "Cages": [
+        {
+          "Id": 9,
+          "IsOccupied": false,
+          "ChickenId": null,
+          "EmployeeId": 3,
           "Employee": null
         }
       ]
